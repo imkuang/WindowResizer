@@ -41,7 +41,7 @@ private:
 	CEdit m_editSetHeight;
 	CEdit m_editSetPercentage;
 
-	// 从指定窗口获取到的一些原始数据，不会被改变
+	// 从指定窗口获取到的一些原始数据，不会被修改
 	HWND m_hWindowHandle;       //查找到的窗口的句柄
 	CString m_szWindowTitle;    //查找到的窗口的标题
 	CWnd* m_pWnd{ nullptr };	//查找到的窗口的指针
@@ -53,10 +53,13 @@ private:
 	int m_nTempOriginalWidth;               //按比例缩放时需要临时记录当前窗口的大小作为缩放基准
 	int m_nTempOriginalHeight;
 
+	bool m_bIsSetMaxSize{ false };          //是否设置过最大化
+
 	void UpdateSizeShow(int width,int height); //更新对话框上宽度和高度的显示
 	bool IsWindowValid();                      //判断已选中的窗口是否有效
 	void SetPercentageEditEnable();	           //设置按比例缩放处的编辑框是否可用
 	void IsEnableAllControls(bool bIsEnable);  //设置除“开始查找窗口”按钮之外的所有控件的可用性
+	void SetMaxSizeButtonEnable();             //设置最大化按钮是否可用
 public:
 	afx_msg void OnBnClickedButtonFindWindow();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

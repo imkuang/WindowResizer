@@ -225,9 +225,12 @@ void CWindowResizerDlg::OnTimer(UINT_PTR nIDEvent)
 			UpdateSizeShow(m_sizeOriginalWindow.cx, m_sizeOriginalWindow.cy);
 
 			IsEnableAllControls(IsWindowValid());
-			m_bClickedSetPercentage = false;
+			
 			KillTimer(1);       //找到窗口之后停掉定时器
 		}
+		// 不管窗口是否有效，每次点击“查找窗口”按钮之后这些值都需要重新初始化
+		m_bClickedSetPercentage = false;
+		m_bIsSetMaxSize = false;
 	}
 	else if (nIDEvent == 2)
 	{
@@ -351,7 +354,10 @@ void CWindowResizerDlg::OnBnClickedButtonMaxSize()
 	// TODO: 在此添加控件通知处理程序代码
 	if (!IsWindowValid())
 		return;
+	if (m_pWnd->IsZoomed())  //只有窗口本身不是最大化的才有效
+		return;
 	m_pWnd->ShowWindow(SW_SHOWMAXIMIZED);
+	m_bIsSetMaxSize = true;
 
 	//重新获取窗口的大小
 	CRect rect;
@@ -366,7 +372,10 @@ void CWindowResizerDlg::OnBnClickedButtonRestore()
 	// TODO: 在此添加控件通知处理程序代码
 	if (!IsWindowValid())
 		return;
-	m_pWnd->ShowWindow(SW_RESTORE);      //取消最大化并还原初始大小
+	if(m_bIsSetMaxSize)
+		m_pWnd->ShowWindow(SW_RESTORE);      //取消最大化
+
+	// 还原初始大小
 	::SetWindowPos(m_hWindowHandle, NULL, 0, 0, m_sizeOriginalWindow.cx, m_sizeOriginalWindow.cy, SWP_NOZORDER | SWP_NOMOVE);
 
 	//重新获取窗口大小并显示出来
@@ -418,6 +427,17 @@ void CWindowResizerDlg::SetPercentageEditEnable()
 }
 
 
+// 只有窗口本身不是最大化才能够使用最大化按钮
+void CWindowResizerDlg::SetMaxSizeButtonEnable()
+{
+	// TODO: 在此处添加实现代码.
+	if (IsWindowValid())
+		GetDlgItem(IDC_BUTTON_MAX_SIZE)->EnableWindow(!m_pWnd->IsZoomed());
+	else
+		GetDlgItem(IDC_BUTTON_MAX_SIZE)->EnableWindow(false);
+}
+
+
 void CWindowResizerDlg::IsEnableAllControls(bool bIsEnable)
 {
 	// TODO: 在此处添加实现代码.
@@ -437,7 +457,8 @@ void CWindowResizerDlg::IsEnableAllControls(bool bIsEnable)
 	GetDlgItem(IDC_RADIO_200)->EnableWindow(bIsEnable);
 	GetDlgItem(IDC_RADIO_CUSTOM)->EnableWindow(bIsEnable);
 	GetDlgItem(IDC_BUTTON_SET_PERCENTAGE)->EnableWindow(bIsEnable);
-	GetDlgItem(IDC_BUTTON_MAX_SIZE)->EnableWindow(bIsEnable);
 	GetDlgItem(IDC_BUTTON_RESTORE)->EnableWindow(bIsEnable);
+	SetMaxSizeButtonEnable();
 	SetPercentageEditEnable();
 }
+
