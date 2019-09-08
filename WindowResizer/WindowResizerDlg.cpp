@@ -30,6 +30,8 @@ public:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnNMClickSyslinkEmail(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -42,6 +44,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	ON_NOTIFY(NM_CLICK, IDC_SYSLINK_EMAIL, &CAboutDlg::OnNMClickSyslinkEmail)
 END_MESSAGE_MAP()
 
 
@@ -250,6 +253,7 @@ void CWindowResizerDlg::OnBnClickedRadio50()
 	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 50;
 	m_bScaleIsCustomized = false;
+	SetPercentageEditEnable();
 }
 
 
@@ -258,6 +262,7 @@ void CWindowResizerDlg::OnBnClickedRadio100()
 	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 100;
 	m_bScaleIsCustomized = false;
+	SetPercentageEditEnable();
 }
 
 
@@ -266,6 +271,7 @@ void CWindowResizerDlg::OnBnClickedRadio125()
 	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 125;
 	m_bScaleIsCustomized = false;
+	SetPercentageEditEnable();
 }
 
 
@@ -274,6 +280,7 @@ void CWindowResizerDlg::OnBnClickedRadio150()
 	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 150;
 	m_bScaleIsCustomized = false;
+	SetPercentageEditEnable();
 }
 
 
@@ -282,6 +289,7 @@ void CWindowResizerDlg::OnBnClickedRadio200()
 	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 200;
 	m_bScaleIsCustomized = false;
+	SetPercentageEditEnable();
 }
 
 
@@ -289,6 +297,7 @@ void CWindowResizerDlg::OnBnClickedRadioCustom()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	m_bScaleIsCustomized = true;
+	SetPercentageEditEnable();
 }
 
 
@@ -351,4 +360,37 @@ void CWindowResizerDlg::OnBnClickedButtonAbout()
 	// TODO: 在此添加控件通知处理程序代码
 	CAboutDlg dlg;
 	dlg.DoModal();
+}
+
+
+void CAboutDlg::OnNMClickSyslinkEmail(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: 在此添加控件通知处理程序代码
+	ShellExecute(NULL, _T("open"), _T("mailto:xirikm@gmail.com"), NULL, NULL, SW_SHOW);
+	*pResult = 0;
+}
+
+
+// 判断已选中的窗口是否可用
+bool CWindowResizerDlg::IsWindowValid()
+{
+	// TODO: 在此处添加实现代码.
+	if (m_pWnd == nullptr)                 //还未选中窗口
+		return false;
+	HWND handle = m_pWnd->GetSafeHwnd();   //获取所选中窗口的句柄
+	if (handle == NULL)
+		return false;
+	if (!IsWindow(handle))
+		return false;
+	return true;
+}
+
+// 按比例缩放处的编辑框只有在选中自定义时才可以使用
+void CWindowResizerDlg::SetPercentageEditEnable()
+{
+	// TODO: 在此处添加实现代码.
+	if (IsWindowValid())
+		m_editSetPercentage.EnableWindow(m_bScaleIsCustomized);
+	else
+		m_editSetPercentage.EnableWindow(FALSE);
 }

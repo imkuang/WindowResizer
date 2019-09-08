@@ -54,6 +54,7 @@ private:
 	int m_nTempOriginalHeight;
 
 	void UpdateSizeShow(int width,int height); //更新对话框上宽度和高度的显示
+	bool IsWindowValid();                      //判断已选中的窗口是否有效
 public:
 	afx_msg void OnBnClickedButtonFindWindow();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
@@ -68,4 +69,6 @@ public:
 	afx_msg void OnBnClickedButtonMaxSize();
 	afx_msg void OnBnClickedButtonRestore();
 	afx_msg void OnBnClickedButtonAbout();
+	// 设置按比例缩放处的编辑框是否可用
+	void SetPercentageEditEnable();
 };
