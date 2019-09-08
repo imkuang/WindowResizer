@@ -338,6 +338,11 @@ void CWindowResizerDlg::OnBnClickedButtonRestore()
 	// TODO: 在此添加控件通知处理程序代码
 	m_pWnd->ShowWindow(SW_RESTORE);      //取消最大化并还原初始大小
 	::SetWindowPos(m_hWindowHandle, NULL, 0, 0, m_sizeOriginalWindow.cx, m_sizeOriginalWindow.cy, SWP_NOZORDER | SWP_NOMOVE);
+
+	//重新获取窗口大小并显示出来
+	CRect rect;
+	::GetWindowRect(m_hWindowHandle, rect);
+	UpdateSizeShow(rect.Size().cx, rect.Size().cy);
 }
 
 
