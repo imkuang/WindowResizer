@@ -122,8 +122,10 @@ BOOL CWindowResizerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	IsEnableAllControls(false);  //初始状态未选中窗口所有控件都不可用
-	((CButton*)GetDlgItem(IDC_RADIO_100))->SetCheck(TRUE);
+	IsEnableAllControls(false);   //初始状态未选中窗口所有控件都不可用
+	((CButton*)GetDlgItem(IDC_RADIO_100))->SetCheck(TRUE); //比例缩放默认选中100%
+	SetTimer(2, 1000, NULL);     //设置定时器，每隔一秒检查一次窗口的有效性
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -223,10 +225,16 @@ void CWindowResizerDlg::OnTimer(UINT_PTR nIDEvent)
 			UpdateSizeShow(m_sizeOriginalWindow.cx, m_sizeOriginalWindow.cy);
 
 			IsEnableAllControls(IsWindowValid());
-			KillTimer(1);
+			m_bClickedSetPercentage = false;
+			KillTimer(1);       //找到窗口之后停掉定时器
 		}
 	}
-	m_bClickedSetPercentage = false;
+	else if (nIDEvent == 2)
+	{
+		//每隔1秒钟检查一次要操作的窗口是否有效，并调用控件的启用或禁用状态
+		IsEnableAllControls(IsWindowValid());
+	}
+
 	CDialogEx::OnTimer(nIDEvent);
 }
 
@@ -312,14 +320,14 @@ void CWindowResizerDlg::OnBnClickedButtonSetPercentage()
 	// TODO: 在此添加控件通知处理程序代码
 	if (!IsWindowValid())
 		return;
-	if (!m_bClickedSetPercentage)         //如果最后一次改变窗口大小不是比例缩放的则记录当前窗口大小作为后续比例缩放的基准
+	if (!m_bClickedSetPercentage)       //如果最后一次改变窗口大小不是按比例缩放的则记录当前窗口大小作为后续按比例缩放的基准
 	{
 		CRect rect;
 		::GetWindowRect(m_hWindowHandle, rect);
 		m_nTempOriginalWidth = rect.Size().cx;
 		m_nTempOriginalHeight = rect.Size().cy;
 	}
-	if (m_bScaleIsCustomized)
+	if (m_bScaleIsCustomized)           //如果选中了自定义，则比例调整为自定义的值
 	{
 		CString szPercentage;
 		m_editSetPercentage.GetWindowText(szPercentage);
@@ -349,6 +357,7 @@ void CWindowResizerDlg::OnBnClickedButtonMaxSize()
 	CRect rect;
 	::GetWindowRect(m_hWindowHandle, rect);
 	UpdateSizeShow(rect.Size().cx, rect.Size().cy);
+	m_bClickedSetPercentage = false;
 }
 
 
@@ -364,6 +373,7 @@ void CWindowResizerDlg::OnBnClickedButtonRestore()
 	CRect rect;
 	::GetWindowRect(m_hWindowHandle, rect);
 	UpdateSizeShow(rect.Size().cx, rect.Size().cy);
+	m_bClickedSetPercentage = false;
 }
 
 

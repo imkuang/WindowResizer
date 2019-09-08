@@ -56,7 +56,7 @@ private:
 	void UpdateSizeShow(int width,int height); //更新对话框上宽度和高度的显示
 	bool IsWindowValid();                      //判断已选中的窗口是否有效
 	void SetPercentageEditEnable();	           //设置按比例缩放处的编辑框是否可用
-	void IsEnableAllControls(bool bIsEnable);
+	void IsEnableAllControls(bool bIsEnable);  //设置除“开始查找窗口”按钮之外的所有控件的可用性
 public:
 	afx_msg void OnBnClickedButtonFindWindow();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
