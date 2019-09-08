@@ -122,7 +122,8 @@ BOOL CWindowResizerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-
+	IsEnableAllControls(false);  //初始状态未选中窗口所有控件都不可用
+	((CButton*)GetDlgItem(IDC_RADIO_100))->SetCheck(TRUE);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -221,6 +222,7 @@ void CWindowResizerDlg::OnTimer(UINT_PTR nIDEvent)
 			m_sizeOriginalWindow = rect.Size();
 			UpdateSizeShow(m_sizeOriginalWindow.cx, m_sizeOriginalWindow.cy);
 
+			IsEnableAllControls(IsWindowValid());
 			KillTimer(1);
 		}
 	}
@@ -232,19 +234,23 @@ void CWindowResizerDlg::OnTimer(UINT_PTR nIDEvent)
 void CWindowResizerDlg::OnBnClickedButtonSetSize()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	int nWidth, nHeight;
-	CString szWidth, szHeight;
-	m_editSetWidth.GetWindowTextW(szWidth);
-	m_editSetHeight.GetWindowTextW(szHeight);
-	nWidth = _ttoi(szWidth);
-	nHeight = _ttoi(szHeight);
-	if (nWidth == 0 || nHeight == 0)
-		return;
+	if (IsWindowValid())
+	{
+		int nWidth, nHeight;
+		CString szWidth, szHeight;
+		m_editSetWidth.GetWindowTextW(szWidth);
+		m_editSetHeight.GetWindowTextW(szHeight);
+		nWidth = _ttoi(szWidth);
+		nHeight = _ttoi(szHeight);
+		if (nWidth == 0 || nHeight == 0)
+			return;
 
-	::SetWindowPos(m_hWindowHandle, NULL, 0, 0, nWidth, nHeight, SWP_NOZORDER | SWP_NOMOVE);
+		::SetWindowPos(m_hWindowHandle, NULL, 0, 0, nWidth, nHeight, SWP_NOZORDER | SWP_NOMOVE);
 
-	UpdateSizeShow(nWidth, nHeight);
-	m_bClickedSetPercentage = false;
+		UpdateSizeShow(nWidth, nHeight);
+		m_bClickedSetPercentage = false;
+	}
+
 }
 
 
@@ -304,6 +310,8 @@ void CWindowResizerDlg::OnBnClickedRadioCustom()
 void CWindowResizerDlg::OnBnClickedButtonSetPercentage()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	if (!IsWindowValid())
+		return;
 	if (!m_bClickedSetPercentage)         //如果最后一次改变窗口大小不是比例缩放的则记录当前窗口大小作为后续比例缩放的基准
 	{
 		CRect rect;
@@ -333,6 +341,8 @@ void CWindowResizerDlg::OnBnClickedButtonSetPercentage()
 void CWindowResizerDlg::OnBnClickedButtonMaxSize()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	if (!IsWindowValid())
+		return;
 	m_pWnd->ShowWindow(SW_SHOWMAXIMIZED);
 
 	//重新获取窗口的大小
@@ -345,6 +355,8 @@ void CWindowResizerDlg::OnBnClickedButtonMaxSize()
 void CWindowResizerDlg::OnBnClickedButtonRestore()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	if (!IsWindowValid())
+		return;
 	m_pWnd->ShowWindow(SW_RESTORE);      //取消最大化并还原初始大小
 	::SetWindowPos(m_hWindowHandle, NULL, 0, 0, m_sizeOriginalWindow.cx, m_sizeOriginalWindow.cy, SWP_NOZORDER | SWP_NOMOVE);
 
@@ -392,5 +404,30 @@ void CWindowResizerDlg::SetPercentageEditEnable()
 	if (IsWindowValid())
 		m_editSetPercentage.EnableWindow(m_bScaleIsCustomized);
 	else
-		m_editSetPercentage.EnableWindow(FALSE);
+		m_editSetPercentage.EnableWindow(false);
+}
+
+
+void CWindowResizerDlg::IsEnableAllControls(bool bIsEnable)
+{
+	// TODO: 在此处添加实现代码.
+	GetDlgItem(IDC_EDIT_HANDLE)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_EDIT_TITLE)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_EDIT_HEIGHT)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_EDIT_HEIGHT)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_EDIT_WIDTH)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_EDIT_HEIGHT)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_EDIT_SET_WIDTH)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_EDIT_SET_HEIGHT)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_BUTTON_SET_SIZE)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_RADIO_50)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_RADIO_100)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_RADIO_125)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_RADIO_150)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_RADIO_200)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_RADIO_CUSTOM)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_BUTTON_SET_PERCENTAGE)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_BUTTON_MAX_SIZE)->EnableWindow(bIsEnable);
+	GetDlgItem(IDC_BUTTON_RESTORE)->EnableWindow(bIsEnable);
+	SetPercentageEditEnable();
 }

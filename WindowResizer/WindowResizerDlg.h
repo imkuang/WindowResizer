@@ -44,7 +44,7 @@ private:
 	// 从指定窗口获取到的一些原始数据，不会被改变
 	HWND m_hWindowHandle;       //查找到的窗口的句柄
 	CString m_szWindowTitle;    //查找到的窗口的标题
-	CWnd* m_pWnd;				//查找到的窗口的指针
+	CWnd* m_pWnd{ nullptr };	//查找到的窗口的指针
 	CSize m_sizeOriginalWindow; //查找到的窗口的原始大小
 
 	int m_nScalePercentage{ 100 };          //窗口要缩放的百分比
@@ -55,6 +55,8 @@ private:
 
 	void UpdateSizeShow(int width,int height); //更新对话框上宽度和高度的显示
 	bool IsWindowValid();                      //判断已选中的窗口是否有效
+	void SetPercentageEditEnable();	           //设置按比例缩放处的编辑框是否可用
+	void IsEnableAllControls(bool bIsEnable);
 public:
 	afx_msg void OnBnClickedButtonFindWindow();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
@@ -69,6 +71,4 @@ public:
 	afx_msg void OnBnClickedButtonMaxSize();
 	afx_msg void OnBnClickedButtonRestore();
 	afx_msg void OnBnClickedButtonAbout();
-	// 设置按比例缩放处的编辑框是否可用
-	void SetPercentageEditEnable();
 };
