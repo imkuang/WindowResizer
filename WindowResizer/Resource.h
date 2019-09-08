@@ -25,7 +25,6 @@
 #define IDC_BUTTON_FIND_WINDOW          1015
 #define IDC_BUTTON_MAX_SIZE             1016
 #define IDC_BUTTON_RESTORE              1017
-#define IDC_BUTTON6                     1018
 #define IDC_BUTTON_ABOUT                1018
 
 // Next default values for new objects
