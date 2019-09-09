@@ -27,6 +27,7 @@
 #define IDC_BUTTON_RESTORE              1017
 #define IDC_BUTTON_ABOUT                1018
 #define IDC_SYSLINK_EMAIL               1019
+#define IDC_SYSLINK_CHECK_UPDATE        1019
 
 // Next default values for new objects
 // 

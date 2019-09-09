@@ -31,7 +31,7 @@ public:
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnNMClickSyslinkEmail(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMClickSyslinkCheckUpdate(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -44,7 +44,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-	ON_NOTIFY(NM_CLICK, IDC_SYSLINK_EMAIL, &CAboutDlg::OnNMClickSyslinkEmail)
+	ON_NOTIFY(NM_CLICK, IDC_SYSLINK_CHECK_UPDATE, &CAboutDlg::OnNMClickSyslinkCheckUpdate)
 END_MESSAGE_MAP()
 
 
@@ -393,15 +393,6 @@ void CWindowResizerDlg::OnBnClickedButtonAbout()
 	dlg.DoModal();
 }
 
-
-void CAboutDlg::OnNMClickSyslinkEmail(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	// TODO: 在此添加控件通知处理程序代码
-	ShellExecute(NULL, _T("open"), _T("mailto:xirikm@gmail.com"), NULL, NULL, SW_SHOW);
-	*pResult = 0;
-}
-
-
 // 判断已选中的窗口是否可用
 bool CWindowResizerDlg::IsWindowValid()
 {
@@ -462,3 +453,11 @@ void CWindowResizerDlg::IsEnableAllControls(bool bIsEnable)
 	SetPercentageEditEnable();
 }
 
+
+
+void CAboutDlg::OnNMClickSyslinkCheckUpdate(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: 在此添加控件通知处理程序代码
+	ShellExecute(NULL, _T("open"), _T("https://github.com/xirikm/WindowResizer/releases"), NULL, NULL, SW_SHOW);
+	*pResult = 0;
+}
