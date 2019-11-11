@@ -54,6 +54,7 @@ END_MESSAGE_MAP()
 
 CWindowResizerDlg::CWindowResizerDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_WINDOWRESIZER_DIALOG, pParent)
+	, m_nRadioSelect(1)      //启动时按比例缩放处默认选取100%
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -68,6 +69,7 @@ void CWindowResizerDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_SET_WIDTH, m_editSetWidth);
 	DDX_Control(pDX, IDC_EDIT_SET_HEIGHT, m_editSetHeight);
 	DDX_Control(pDX, IDC_EDIT_PERCENTAGE_CUSTOM, m_editSetPercentage);
+	DDX_Radio(pDX, IDC_RADIO_50, m_nRadioSelect);
 }
 
 BEGIN_MESSAGE_MAP(CWindowResizerDlg, CDialogEx)
@@ -123,7 +125,10 @@ BOOL CWindowResizerDlg::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 	IsEnableAllControls(false);   //初始状态未选中窗口所有控件都不可用
-	((CButton*)GetDlgItem(IDC_RADIO_100))->SetCheck(TRUE); //比例缩放默认选中100%
+
+	// 已弃用，现在通过修改int型变量m_nRadioSelect的值（已默认设为1）来修改Radio Button选中状态
+	//((CButton*)GetDlgItem(IDC_RADIO_100))->SetCheck(TRUE); //比例缩放默认选中100%
+
 	SetTimer(2, 1000, NULL);     //设置定时器，每隔一秒检查一次窗口的有效性
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -378,7 +383,12 @@ void CWindowResizerDlg::OnBnClickedButtonRestore()
 	// 还原初始大小
 	::SetWindowPos(m_hWindowHandle, NULL, 0, 0, m_sizeOriginalWindow.cx, m_sizeOriginalWindow.cy, SWP_NOZORDER | SWP_NOMOVE);
 
-	//重新获取窗口大小并显示出来
+	// 按比例缩放处恢复到选中100%
+	m_nRadioSelect = 1;
+	UpdateData(FALSE);
+	OnBnClickedRadio100();
+
+	// 重新获取窗口大小并显示出来
 	CRect rect;
 	::GetWindowRect(m_hWindowHandle, rect);
 	UpdateSizeShow(rect.Size().cx, rect.Size().cy);

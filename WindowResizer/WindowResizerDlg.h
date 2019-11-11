@@ -52,6 +52,7 @@ private:
 	bool m_bClickedSetPercentage{ false };  //最后一次设置大小是否为百分比缩放
 	int m_nTempOriginalWidth;               //按比例缩放时需要临时记录当前窗口的大小作为缩放基准
 	int m_nTempOriginalHeight;
+	int m_nRadioSelect;                     //按比例缩放处控制选取哪一个复选框
 
 	bool m_bIsSetMaxSize{ false };          //是否设置过最大化
 
