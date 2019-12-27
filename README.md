@@ -8,7 +8,7 @@
 
 ## 程序截图
 
-![V3TP.jpg](https://img.xirikm.net/images/V3TP.jpg)
+![VoBn.png](https://img.xirikm.net/images/VoBn.png)
 
 ## 使用说明
 
