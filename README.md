@@ -8,7 +8,7 @@
 
 ## 程序截图
 
-![VoBn.png](https://img.xirikm.net/images/VoBn.png)
+![](https://raw.githubusercontent.com/xirikm/WindowResizer/master/screenshot.png)
 
 ## 使用说明
 
