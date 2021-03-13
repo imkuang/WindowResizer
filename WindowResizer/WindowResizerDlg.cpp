@@ -187,7 +187,6 @@ HCURSOR CWindowResizerDlg::OnQueryDragIcon()
 
 void CWindowResizerDlg::UpdateSizeShow(int width,int height)
 {
-	// TODO: 在此处添加实现代码.
 	CString szWidth,szHeight;
 	szWidth.Format(_T("%d"), width);
 	szHeight.Format(_T("%d"), height);
@@ -198,7 +197,6 @@ void CWindowResizerDlg::UpdateSizeShow(int width,int height)
 
 void CWindowResizerDlg::OnBnClickedButtonFindWindow()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	SetTimer(1, 1000, NULL);
 }
 
@@ -207,7 +205,6 @@ void CWindowResizerDlg::OnBnClickedButtonFindWindow()
 
 void CWindowResizerDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	if (nIDEvent == 1)
 	{
 		CWnd* pWnd = GetForegroundWindow();
@@ -249,7 +246,6 @@ void CWindowResizerDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CWindowResizerDlg::OnBnClickedButtonSetSize()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	if (IsWindowValid())
 	{
 		int nWidth, nHeight;
@@ -272,7 +268,6 @@ void CWindowResizerDlg::OnBnClickedButtonSetSize()
 
 void CWindowResizerDlg::OnBnClickedRadio50()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 50;
 	m_bScaleIsCustomized = false;
 	SetPercentageEditEnable();
@@ -281,7 +276,6 @@ void CWindowResizerDlg::OnBnClickedRadio50()
 
 void CWindowResizerDlg::OnBnClickedRadio100()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 100;
 	m_bScaleIsCustomized = false;
 	SetPercentageEditEnable();
@@ -290,7 +284,6 @@ void CWindowResizerDlg::OnBnClickedRadio100()
 
 void CWindowResizerDlg::OnBnClickedRadio125()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 125;
 	m_bScaleIsCustomized = false;
 	SetPercentageEditEnable();
@@ -299,7 +292,6 @@ void CWindowResizerDlg::OnBnClickedRadio125()
 
 void CWindowResizerDlg::OnBnClickedRadio150()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 150;
 	m_bScaleIsCustomized = false;
 	SetPercentageEditEnable();
@@ -308,7 +300,6 @@ void CWindowResizerDlg::OnBnClickedRadio150()
 
 void CWindowResizerDlg::OnBnClickedRadio200()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	m_nScalePercentage = 200;
 	m_bScaleIsCustomized = false;
 	SetPercentageEditEnable();
@@ -317,7 +308,6 @@ void CWindowResizerDlg::OnBnClickedRadio200()
 
 void CWindowResizerDlg::OnBnClickedRadioCustom()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	m_bScaleIsCustomized = true;
 	SetPercentageEditEnable();
 }
@@ -325,7 +315,6 @@ void CWindowResizerDlg::OnBnClickedRadioCustom()
 
 void CWindowResizerDlg::OnBnClickedButtonSetPercentage()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	if (!IsWindowValid())
 		return;
 	if (!m_bClickedSetPercentage)       //如果最后一次改变窗口大小不是按比例缩放的则记录当前窗口大小作为后续按比例缩放的基准
@@ -356,7 +345,6 @@ void CWindowResizerDlg::OnBnClickedButtonSetPercentage()
 
 void CWindowResizerDlg::OnBnClickedButtonMaxSize()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	if (!IsWindowValid())
 		return;
 	if (m_pWnd->IsZoomed())  //只有窗口本身不是最大化的才有效
@@ -374,7 +362,6 @@ void CWindowResizerDlg::OnBnClickedButtonMaxSize()
 
 void CWindowResizerDlg::OnBnClickedButtonRestore()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	if (!IsWindowValid())
 		return;
 	if(m_bIsSetMaxSize)
@@ -398,7 +385,6 @@ void CWindowResizerDlg::OnBnClickedButtonRestore()
 
 void CWindowResizerDlg::OnBnClickedButtonAbout()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	CAboutDlg dlg;
 	dlg.DoModal();
 }
@@ -406,7 +392,6 @@ void CWindowResizerDlg::OnBnClickedButtonAbout()
 // 判断已选中的窗口是否可用
 bool CWindowResizerDlg::IsWindowValid()
 {
-	// TODO: 在此处添加实现代码.
 	if (m_pWnd == nullptr)                 //还未选中窗口
 		return false;
 	HWND handle = m_pWnd->GetSafeHwnd();   //获取所选中窗口的句柄
@@ -420,7 +405,6 @@ bool CWindowResizerDlg::IsWindowValid()
 // 按比例缩放处的编辑框只有在选中自定义时才可以使用
 void CWindowResizerDlg::SetPercentageEditEnable()
 {
-	// TODO: 在此处添加实现代码.
 	if (IsWindowValid())
 		m_editSetPercentage.EnableWindow(m_bScaleIsCustomized);
 	else
@@ -431,7 +415,6 @@ void CWindowResizerDlg::SetPercentageEditEnable()
 // 只有窗口本身不是最大化才能够使用最大化按钮
 void CWindowResizerDlg::SetMaxSizeButtonEnable()
 {
-	// TODO: 在此处添加实现代码.
 	if (IsWindowValid())
 		GetDlgItem(IDC_BUTTON_MAX_SIZE)->EnableWindow(!m_pWnd->IsZoomed());
 	else
@@ -441,7 +424,6 @@ void CWindowResizerDlg::SetMaxSizeButtonEnable()
 
 void CWindowResizerDlg::IsEnableAllControls(bool bIsEnable)
 {
-	// TODO: 在此处添加实现代码.
 	GetDlgItem(IDC_EDIT_HANDLE)->EnableWindow(bIsEnable);
 	GetDlgItem(IDC_EDIT_TITLE)->EnableWindow(bIsEnable);
 	GetDlgItem(IDC_EDIT_HEIGHT)->EnableWindow(bIsEnable);
@@ -467,7 +449,6 @@ void CWindowResizerDlg::IsEnableAllControls(bool bIsEnable)
 
 void CAboutDlg::OnNMClickSyslinkCheckUpdate(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	// TODO: 在此添加控件通知处理程序代码
 	ShellExecute(NULL, _T("open"), _T("https://github.com/xirikm/WindowResizer/releases"), NULL, NULL, SW_SHOW);
 	*pResult = 0;
 }
