@@ -449,6 +449,6 @@ void CWindowResizerDlg::IsEnableAllControls(bool bIsEnable)
 
 void CAboutDlg::OnNMClickSyslinkCheckUpdate(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	ShellExecute(NULL, _T("open"), _T("https://github.com/xirikm/WindowResizer/releases"), NULL, NULL, SW_SHOW);
+	ShellExecute(NULL, _T("open"), _T("https://github.com/inkuang/WindowResizer/releases"), NULL, NULL, SW_SHOW);
 	*pResult = 0;
 }
